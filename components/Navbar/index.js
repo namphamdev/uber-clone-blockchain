@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useContext } from "react";
 import { BsPerson } from "react-icons/bs";
 import avatar from "../../assets/avatar.jpg";
-import { UberContext } from "../../context/uberContext";
+import { UberContext } from "../../contexts/uberContext";
 
 const style = {
   wrapper: `h-16 w-full bg-black text-white flex md:justify-around items-center px-60 fixed z-20`,

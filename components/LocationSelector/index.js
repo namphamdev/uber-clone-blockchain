@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useContext } from "react";
-import { UberContext } from "../../context/uberContext";
+import { UberContext } from "../../contexts/uberContext";
 
 const style = {
   wrapper: `pt-2`,

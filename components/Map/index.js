@@ -1,6 +1,6 @@
 import { useEffect, useContext } from "react";
 import mapboxgl from "mapbox-gl";
-import { UberContext } from "../../context/uberContext";
+import { UberContext } from "../../contexts/uberContext";
 
 const style = {
   wrapper: `flex-1 h-full w-full`,
@@ -15,7 +15,7 @@ const Map = () => {
     const map = new mapboxgl.Map({
       container: "map",
       style: "mapbox://styles/drakosi/ckvcwq3rwdw4314o3i2ho8tph",
-      center: [-99.29011, 39.39172],
+      center: [106.7417, 10.7417],
       zoom: 3,
     });
 

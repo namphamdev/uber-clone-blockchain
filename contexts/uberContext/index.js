@@ -20,6 +20,26 @@ export const UberProvider = ({ children }) => {
     metamask = window.ethereum
   }
 
+  const getDuration = async () => {
+    try {
+      const response = await fetch('/api/map/getDuration', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          pickupCoordinates: `${pickupCoordinates[0]},${pickupCoordinates[1]}`,
+          dropOffCoordinates: `${dropOffCoordinates[0]},${dropOffCoordinates[1]}`,
+        }),
+      })
+
+      const data = await response.json()
+      setBasePrice(Math.round(await data.data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   useEffect(() => {
     checkIfWalletIsConnected()
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -32,25 +52,8 @@ export const UberProvider = ({ children }) => {
 
   useEffect(() => {
     if (!pickupCoordinates || !dropOffCoordinates) return
-    ;(async () => {
-      try {
-        const response = await fetch('/api/map/getDuration', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            pickupCoordinates: `${pickupCoordinates[0]},${pickupCoordinates[1]}`,
-            dropOffCoordinates: `${dropOffCoordinates[0]},${dropOffCoordinates[1]}`,
-          }),
-        })
-
-        const data = await response.json()
-        setBasePrice(Math.round(await data.data))
-      } catch (error) {
-        console.error(error)
-      }
-    })()
+    getDuration();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickupCoordinates, dropOffCoordinates])
 
   const checkIfWalletIsConnected = async () => {
@@ -154,7 +157,6 @@ export const UberProvider = ({ children }) => {
       const response = await fetch(
         `/api/db/getUserInfo?walletAddress=${walletAddress}`,
       )
-
       const data = await response.json()
       setCurrentUser(data.data)
     } catch (error) {

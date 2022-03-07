@@ -1,7 +1,7 @@
 import Image from "next/image";
 import ethLogo from "../../assets/eth-logo.png";
 import { useEffect, useContext, useState } from "react";
-import { UberContext } from "../../context/uberContext";
+import { UberContext } from "../../contexts/uberContext";
 import uberX from "../../assets/rides/uberX.png";
 
 const style = {
@@ -17,40 +17,22 @@ const style = {
   priceContainer: `flex items-center`,
   price: `mr-[-0.8rem]`,
 };
-const carListMock = [
-  {
-    name: "UberA",
-    iconUrl: uberX,
-    priceMultiplier: 1,
-  },
-  {
-    name: "UberB",
-    iconUrl: uberX,
-    priceMultiplier: 1.5,
-  },
-  {
-    name: "UberC",
-    iconUrl: uberX,
-    priceMultiplier: 1.7,
-  },
-  {
-    name: "UberD",
-    iconUrl: uberX,
-    priceMultiplier: 1.9,
-  },
-  {
-    name: "UberE",
-    iconUrl: uberX,
-    priceMultiplier: 2,
-  },
-]
 
 const RideSelector = () => {
-  const [carList, setCarList] = useState(carListMock);
+  const [carList, setCarList] = useState([]);
   const { selectedRide, setSelectedRide, setPrice, basePrice } =
     useContext(UberContext);
 
-  console.log(basePrice);
+  const getData = async () => {
+    const response = await fetch("/api/db/getRideTypes");
+    const data = await response.json();
+    setCarList(data.data);
+    setSelectedRide(data.data[0]);
+  };
+  useEffect(() => {
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={style.wrapper}>
